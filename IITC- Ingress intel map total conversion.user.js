@@ -15955,13 +15955,15 @@ window.getPortalSummaryData = function(d) {
   var curEnergy = getCurrentPortalEnergy(d);
   var health = maxEnergy>0 ? parseInt(curEnergy/maxEnergy*100) : 0;
 
-// @@
+// @@　こっから下は「しりうす」さんがいじった所 ＃とっても危ないです。
   var tx
   var tlvl = " ";
+  var trs = 8;
 //  var d = data;
   if (d.resonators) {
     for ( tx in d.resonators) {
       tlvl += parseInt(d.resonators[tx].level) ;
+      if(d.resonators[tx].level == 8) trs--;
     }
   }
   var tmod = " ";
@@ -15974,16 +15976,20 @@ window.getPortalSummaryData = function(d) {
   }
 tmod = tmod.replace(/RareForce Amp/g,"FA/")
 tmod = tmod.replace(/RareTurret/g,"T/")
-tmod = tmod.replace(/Very rareAXA Shield/g,"AXA/")
-tmod = tmod.replace(/Very rare/g,"VR")
+tmod = tmod.replace(/RareLink Amp/g,"LA/")
+tmod = tmod.replace(/Very_rareAXA Shield/g,"AXA/")
+tmod = tmod.replace(/Very_rare/g,"VR")
 tmod = tmod.replace(/Rare/g,"R")
 tmod = tmod.replace(/Common/g,"C")
 tmod = tmod.replace(/Portal Shield/g,"S/")
 tmod = tmod.replace(/Heat Sink/g,"HS/")
 tmod = tmod.replace(/Multi-hack/g,"MH/")
-
-alert(""+d.title + " L"+d.level+tlvl+tmod+"<");
-// @@   
+var ttext="";
+ttext += d.title + "\tL" + d.level + "@"+trs + tmod + "\n";
+//ttext += d.title + "\tL" + d.level + tlvl + tmod + "\n";
+alert(ttext);
+//window.clipboardData.setData("text",ttext);
+// @@   　こっから上は「しりうす」さんがいじった所 ＃とっても危ないです。
 
   return {
     level: level,
