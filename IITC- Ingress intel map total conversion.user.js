@@ -14964,7 +14964,6 @@ window.renderPortalDetails = function(guid) {
     data = getPortalSummaryData(details);
   }
 
-
   var modDetails = details ? '<div class="mods">'+getModDetails(details)+'</div>' : '';
   var miscDetails = details ? getPortalMiscDetails(guid,details) : '';
   var resoDetails = details ? getResonatorDetails(details) : '';
@@ -15955,6 +15954,36 @@ window.getPortalSummaryData = function(d) {
   var maxEnergy = getTotalPortalEnergy(d);
   var curEnergy = getCurrentPortalEnergy(d);
   var health = maxEnergy>0 ? parseInt(curEnergy/maxEnergy*100) : 0;
+
+// @@
+  var tx
+  var tlvl = " ";
+//  var d = data;
+  if (d.resonators) {
+    for ( tx in d.resonators) {
+      tlvl += parseInt(d.resonators[tx].level) ;
+    }
+  }
+  var tmod = " ";
+  var trar = "";
+  if (d.mods) {
+    for (tx in d.mods) {
+      tmod += d.mods[tx].rarity.capitalize() + d.mods[tx].name ;
+//      tmod += d.mods[tx].name ;
+    }
+  }
+tmod = tmod.replace(/RareForce Amp/g,"FA/")
+tmod = tmod.replace(/RareTurret/g,"T/")
+tmod = tmod.replace(/Very rareAXA Shield/g,"AXA/")
+tmod = tmod.replace(/Very rare/g,"VR")
+tmod = tmod.replace(/Rare/g,"R")
+tmod = tmod.replace(/Common/g,"C")
+tmod = tmod.replace(/Portal Shield/g,"S/")
+tmod = tmod.replace(/Heat Sink/g,"HS/")
+tmod = tmod.replace(/Multi-hack/g,"MH/")
+
+alert(""+d.title + " L"+d.level+tlvl+tmod+"<");
+// @@   
 
   return {
     level: level,
