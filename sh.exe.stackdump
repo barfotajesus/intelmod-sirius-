@@ -11,5 +11,5 @@ Frame     Function  Args
 0028F6BC  6801368D  (0028FAC0, 00000000, 00110000, 00000000)
 0028FB00  6805E475  (68571F1C, 00000000, 6805B0F4, 68571F14)
 6805B0F4  68572744  (F2890873, 000001B8, C10FF000, C1894002)
- 101963 [main] sh 9092 handle_exceptions: Exception: STATUS_ACCESS_VIOLATION
- 103131 [main] sh 9092 handle_exceptions: Error while dumping state (probably corrupted stack)
+  76057 [main] sh 5892 handle_exceptions: Exception: STATUS_ACCESS_VIOLATION
+  77067 [main] sh 5892 handle_exceptions: Error while dumping state (probably corrupted stack)
