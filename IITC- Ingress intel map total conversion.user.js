@@ -15935,6 +15935,7 @@ window.getPortalHackDetails = function(d) {
     var extraHacks = parseInt(mod.stats.BURNOUT_INSULATION);
     numHacks = numHacks + (extraHacks * effectivenessReduction[index]);
   });
+
   return {cooldown: cooldownTime, hacks: numHacks, burnout: cooldownTime*(numHacks-1)};
 }
 
@@ -15954,45 +15955,50 @@ window.getPortalSummaryData = function(d) {
   var maxEnergy = getTotalPortalEnergy(d);
   var curEnergy = getCurrentPortalEnergy(d);
   var health = maxEnergy>0 ? parseInt(curEnergy/maxEnergy*100) : 0;
+
 // @@　こっから下は「しりうす」さんがいじった所 ＃とっても危ないです。
-// /*
-// var tlvl = " ";
- var trs = 8;
+  var tx
+  var tlvl = " ";
+  var trs = 8;
 //  var d = data;
- if (d.resonators) {
-   for (var tx in d.resonators) {
-//     tlvl += parseInt(d.resonators[tx].level) ;
-     if(d.resonators[tx].level == 8) trs--;
-   }
- }
- var tmod = " ";
- var trar = "";
- if (d.mods) {
-   for (var tx in d.mods) {
-     if (d.mods[tx]) {
-     tmod += d.mods[tx].rarity.capitalize() + d.mods[tx].name ;
-//      tmod += d.mods[tx].name ;
-     }
-   }
- }
-tmod = tmod.replace(/RareForce Amp/g,"FA/")
-tmod = tmod.replace(/RareTurret/g,"T/")
-tmod = tmod.replace(/RareLink Amp/g,"LA/")
-tmod = tmod.replace(/Very_rareAXA Shield/g,"AXA/")
-tmod = tmod.replace(/Very_rare/g,"VR")
-tmod = tmod.replace(/Rare/g,"R")
-tmod = tmod.replace(/Common/g,"C")
-tmod = tmod.replace(/Portal Shield/g,"S/")
-tmod = tmod.replace(/Heat Sink/g,"HS/")
-tmod = tmod.replace(/Multi-hack/g,"MH/")
+  if (d.resonators) {
+    for ( tx in d.resonators) {
+      tlvl += parseInt(d.resonators[tx].level) ;
+      if(d.resonators[tx].level == 8) trs--;
+    }
+  }
+  var tmod = " ";
+  var trar = "";
+  if (d.mods) {
+    for (tx in d.mods) {
+      if (d.mods[tx]) {
+        tmod += d.mods[tx].rarity.capitalize() + d.mods[tx].name ;
+      }
+    }
+  }
+tmod = tmod.replace(/RareForce Amp/g,"FA/");
+tmod = tmod.replace(/RareTurret/g,"T/");
+tmod = tmod.replace(/SoftBank Ultra Link/g,"LA/");
+tmod = tmod.replace(/RareLink Amp/g,"LA/");
+tmod = tmod.replace(/Very_rareAXA Shield/g,"AXA/");
+tmod = tmod.replace(/Very_rare/g,"VR");
+tmod = tmod.replace(/Rare/g,"R");
+tmod = tmod.replace(/Common/g,"C");
+tmod = tmod.replace(/Portal Shield/g,"S/");
+tmod = tmod.replace(/Heat Sink/g,"HS/");
+tmod = tmod.replace(/Multi-hack/g,"MH/");
 var ttext="";
 ttext += d.title + ", L" + d.level + ",@"+trs+"," + tmod + "\n";
-//ttext += d.title + "\tL" + d.level + tlvl + tmod + "\n";
- if (trs < 4 || (ttext.indexOf("RMH") != -1) || (ttext.indexOf("RHS") != -1)) {
-     alert(ttext);
- }
+//@3以下＋レア＋AXA
+//  if (trs <= 3 || ttext.indexOf("RHS") != -1  || ttext.indexOf("RMH") != -1 || ttext.indexOf("AXA") != -1) {
+//@2以下＋レアMOD
+//  if (trs <= 2 || ttext.indexOf("RHS") != -1  || ttext.indexOf("RMH") != -1) {
+//福島仕様
+  if (trs <= 2) {
+      alert(ttext);
+  }
 //window.clipboardData.setData("text",ttext);
-// */
+
 // @@   　こっから上は「しりうす」さんがいじった所 ＃とっても危ないです。
 
   return {
