@@ -131,6 +131,9 @@ window.script_info = info;
 //L_PREFER_CANVAS = false;
 
 // CONFIG OPTIONS ////////////////////////////////////////////////////
+//@@@ここで設定可能
+window.siriussk8er = 1; // 1=@1Portal探し 2=myPortal表示 3=両方
+//@@@ここまで
 window.REFRESH = 30; // refresh view every 30s (base time)
 window.ZOOM_LEVEL_ADJ = 5; // add 5 seconds per zoom level
 window.ON_MOVE_REFRESH = 2.5;  //refresh time to use after a movement event
@@ -152,7 +155,13 @@ window.FIELD_MU_DISPLAY_POINT_TOLERANCE = 60
 
 window.COLOR_SELECTED_PORTAL = '#f0f';
 window.COLORS = ['#FF6600', '#0088FF', '#03DC03']; // none, res, enl
-window.COLORS_LVL = ['#000', '#FECE5A', '#FFA630', '#FF7315', '#E40000', '#FD2992', '#EB26CD', '#C124E0', '#9627F4'];
+//@@ OwnerPortalカラー追加
+if(window.siriussk8er & 2){
+  window.COLORS_LVL = ['#000', '#FECE5A', '#FFA630', '#FF7315', '#E40000', '#FD2992', '#EB26CD', '#C124E0', '#9627F4','#707070','#0088FF',];//LV9 gray LV10 res
+}else{
+  window.COLORS_LVL = ['#000', '#FECE5A', '#FFA630', '#FF7315', '#E40000', '#FD2992', '#EB26CD', '#C124E0', '#9627F4'];
+}
+//@@
 window.COLORS_MOD = {VERY_RARE: '#b08cff', RARE: '#73a8ff', COMMON: '#8cffbf'};
 
 
@@ -15957,48 +15966,67 @@ window.getPortalSummaryData = function(d) {
   var health = maxEnergy>0 ? parseInt(curEnergy/maxEnergy*100) : 0;
 
 // @@　こっから下は「しりうす」さんがいじった所 ＃とっても危ないです。
-  var tx
-  var tlvl = " ";
-  var trs = 8;
-//  var d = data;
-  if (d.resonators) {
-    for ( tx in d.resonators) {
-      tlvl += parseInt(d.resonators[tx].level) ;
-      if(d.resonators[tx].level == 8) trs--;
-    }
-  }
-  var tmod = " ";
-  var trar = "";
-  if (d.mods) {
-    for (tx in d.mods) {
-      if (d.mods[tx]) {
-        tmod += d.mods[tx].rarity.capitalize() + d.mods[tx].name ;
+// @1Portal探し部
+  if(window.siriussk8er & 1){
+    var tx
+    var tlvl = " ";
+    var trs = 8;
+//    var d = data;
+    if (d.resonators) {
+      for ( tx in d.resonators) {
+        tlvl += parseInt(d.resonators[tx].level) ;
+        if(d.resonators[tx].level == 8) trs--;
       }
     }
-  }
-tmod = tmod.replace(/RareForce Amp/g,"FA/");
-tmod = tmod.replace(/RareTurret/g,"T/");
-tmod = tmod.replace(/SoftBank Ultra Link/g,"LA/");
-tmod = tmod.replace(/RareLink Amp/g,"LA/");
-tmod = tmod.replace(/Very_rareAXA Shield/g,"AXA/");
-tmod = tmod.replace(/Very_rare/g,"VR");
-tmod = tmod.replace(/Rare/g,"R");
-tmod = tmod.replace(/Common/g,"C");
-tmod = tmod.replace(/Portal Shield/g,"S/");
-tmod = tmod.replace(/Heat Sink/g,"HS/");
-tmod = tmod.replace(/Multi-hack/g,"MH/");
-var ttext="";
-ttext += d.title + ", L" + d.level + ",@"+trs+"," + tmod + "\n";
+    var tmod = " ";
+    var trar = "";
+    if (d.mods) {
+      for (tx in d.mods) {
+        if (d.mods[tx]) {
+          tmod += d.mods[tx].rarity.capitalize() + d.mods[tx].name ;
+        }
+      }
+    }
+  tmod = tmod.replace(/RareForce Amp/g,"FA/");
+  tmod = tmod.replace(/RareTurret/g,"T/");
+  tmod = tmod.replace(/RareLink Amp/g,"LA/");
+  tmod = tmod.replace(/Very_rareAXA Shield/g,"AXA/");
+  tmod = tmod.replace(/Very_rare/g,"VR");
+  tmod = tmod.replace(/Rare/g,"R");
+  tmod = tmod.replace(/Common/g,"C");
+  tmod = tmod.replace(/Portal Shield/g,"S/");
+  tmod = tmod.replace(/Heat Sink/g,"HS/");
+  tmod = tmod.replace(/Multi-hack/g,"MH/");
+  var ttext="";
+  ttext += d.title + ", L" + d.level + ",@"+trs+"," + tmod + "\n";
 //@3以下＋レア＋AXA
-//  if (trs <= 3 || ttext.indexOf("RHS") != -1  || ttext.indexOf("RMH") != -1 || ttext.indexOf("AXA") != -1) {
+//    if (trs <= 3 || ttext.indexOf("RHS") != -1  || ttext.indexOf("RMH") != -1 || ttext.indexOf("AXA") != -1) {
+//        alert(ttext);
+//    }
 //@2以下＋レアMOD
-//  if (trs <= 2 || ttext.indexOf("RHS") != -1  || ttext.indexOf("RMH") != -1) {
+//    if (trs <= 2 || ttext.indexOf("RHS") != -1  || ttext.indexOf("RMH") != -1) {
+//        alert(ttext);
+//    }
 //福島仕様
-  if (trs <= 2) {
-      alert(ttext);
+    if (trs <= 2) {
+       alert(ttext);
+    }
   }
-//window.clipboardData.setData("text",ttext);
-
+// @myPortal表示部
+  if(window.siriussk8er & 2){
+    if (PLAYER.nickname == d.owner) {
+      window.portals[window.selectedPortal].options.data["level"]=10;
+    }else if (d.resonators) {
+      var ownertxt="";
+      for (tx in d.resonators) {
+        ownertxt += "\n>"+d.resonators[tx].owner;
+        if (PLAYER.nickname == d.resonators[tx].owner) {
+        window.portals[window.selectedPortal].options.data["level"]=9;
+        }
+      }
+//    alert(""+d.owner +"]\n"+ ownertxt);
+    }
+  }
 // @@   　こっから上は「しりうす」さんがいじった所 ＃とっても危ないです。
 
   return {
