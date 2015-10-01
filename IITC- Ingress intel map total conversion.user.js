@@ -132,7 +132,7 @@ window.script_info = info;
 
 // CONFIG OPTIONS ////////////////////////////////////////////////////
 //@@@ここで設定可能
-window.siriussk8er = 2; // 1=@1Portal探し 2=myPortal表示 3=両方
+window.siriussk8er = 3; // 1=@1Portal探し 2=myPortal表示 3=1+2
 //@@@ここまで
 window.REFRESH = 30; // refresh view every 30s (base time)
 window.ZOOM_LEVEL_ADJ = 5; // add 5 seconds per zoom level
@@ -155,13 +155,7 @@ window.FIELD_MU_DISPLAY_POINT_TOLERANCE = 60
 
 window.COLOR_SELECTED_PORTAL = '#f0f';
 window.COLORS = ['#FF6600', '#0088FF', '#03DC03']; // none, res, enl
-//@@ OwnerPortalカラー追加
-if(window.siriussk8er & 2){
-  window.COLORS_LVL = ['#000', '#FECE5A', '#FFA630', '#FF7315', '#E40000', '#FD2992', '#EB26CD', '#C124E0', '#9627F4','#707070','#0088FF',];//LV9 gray LV10 res
-}else{
-  window.COLORS_LVL = ['#000', '#FECE5A', '#FFA630', '#FF7315', '#E40000', '#FD2992', '#EB26CD', '#C124E0', '#9627F4'];
-}
-//@@
+window.COLORS_LVL = ['#000', '#FECE5A', '#FFA630', '#FF7315', '#E40000', '#FD2992', '#EB26CD', '#C124E0', '#9627F4'];
 window.COLORS_MOD = {VERY_RARE: '#b08cff', RARE: '#73a8ff', COMMON: '#8cffbf'};
 
 
@@ -15512,6 +15506,10 @@ window.getHackDetailsText = function(d) {
             + 'Cooldown time:\t'+formatInterval(hackDetails.cooldown)+'\n'
             + 'Burnout time:\t'+formatInterval(hackDetails.burnout);
 
+//@@ ここに追加
+  window.portals[window.selectedPortal].options.data["th1"]=hackDetails.hacks;
+  window.portals[window.selectedPortal].options.data["th2"]=hackDetails.cooldown;
+//@@
   return ['hacks', shortHackInfo, title];
 }
 
@@ -15528,7 +15526,10 @@ window.getMitigationText = function(d,linkCount) {
             + 'From\n'
             + '- shields:\t'+mitigationDetails.shields+'\n'
             + '- links:\t'+mitigationDetails.links;
-
+//@@ ここに追加
+  window.portals[window.selectedPortal].options.data["tg1"]=mitigationDetails.total;
+  window.portals[window.selectedPortal].options.data["tg2"]=mitigationDetails.excess;
+//@@
   return ['shielding', mitigationShort, title];
 }
 
@@ -15979,6 +15980,7 @@ window.getPortalSummaryData = function(d) {
     }
   tmod = tmod.replace(/RareForce Amp/g,"FA/");
   tmod = tmod.replace(/RareTurret/g,"T/");
+  tmod = tmod.replace(/Very_rareSoftBank Ultra Link/g,"SLA/");
   tmod = tmod.replace(/RareLink Amp/g,"LA/");
   tmod = tmod.replace(/Very_rareAXA Shield/g,"AXA/");
   tmod = tmod.replace(/Very_rare/g,"VR");
@@ -15998,23 +16000,29 @@ window.getPortalSummaryData = function(d) {
 //        alert(ttext);
 //    }
 //福島仕様
-    if (trs <= 2) {
-      alert(ttext);
-    }
+//    if (trs <= 2) {
+//      alert(ttext);
+//    }
+    window.portals[window.selectedPortal].options.data["need"]=trs;
+    window.portals[window.selectedPortal].options.data["tmod"]=tmod;
   }
 // @myPortal表示部
   if(window.siriussk8er & 2){
     if (PLAYER.nickname == d.owner) {
-      window.portals[window.selectedPortal].options.data["level"]=10;
+//      window.portals[window.selectedPortal].options.data["level"]=10;
+      window.portals[window.selectedPortal].options.data["tow"]=1;
     }else if (d.resonators) {
       var ownertxt="";
       for (tx in d.resonators) {
         ownertxt += "\n>"+d.resonators[tx].owner;
         if (PLAYER.nickname == d.resonators[tx].owner) {
-        window.portals[window.selectedPortal].options.data["level"]=9;
+//        window.portals[window.selectedPortal].options.data["level"]=9;
+        window.portals[window.selectedPortal].options.data["tow"]=2;
         }
       }
 //    alert(""+d.owner +"]\n"+ ownertxt);
+    }else{
+      window.portals[window.selectedPortal].options.data["tow"]=0;
     }
   }
 // @@   　こっから上は「しりうす」さんがいじった所 ＃とっても危ないです。
