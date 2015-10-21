@@ -97,7 +97,7 @@ window.plugin.portalslistmod.fields = [
     value: function(portal) { return 'tow' in portal.options.data ? portal.options.data.tow : '0' },
     format: function(cell, portal, value) {
       $(cell)
-        .text([' ', 'O', 'R'][value]);
+        .text([' ', 'R', 'O'][value]);
     },
     defaultOrder: -1,
   },
@@ -141,8 +141,27 @@ window.plugin.portalslistmod.fields = [
     },
     defaultOrder: -1,
   },
-];
+  {
+    title: "Lat",
+    value: function(portal) { return portal.options.data.latE6; },
+    format: function(cell, portal, value) {
+      $(cell)
+        .text(value);
+    },
+    defaultOrder: -1,
+  },
+  {
+    title: "Lng",
+    value: function(portal) { return portal.options.data.lngE6; },
+    format: function(cell, portal, value) {
+      $(cell)
+        .text(value);
+    },
+    defaultOrder: -1,
+  },
 
+];
+    
 //fill the listPortals array with portals avaliable on the map (level filtered portals will not appear in the table)
 window.plugin.portalslistmod.getPortals = function() {
   //filter : 0 = All, 1 = Neutral, 2 = Res, 3 = Enl, -x = all but x
@@ -392,7 +411,7 @@ var setup =  function() {
 
   $("<style>")
     .prop("type", "text/css")
-    .html("#portalslistmod.mobile {\n  background: transparent;\n  border: 0 none !important;\n  height: 100% !important;\n  width: 100% !important;\n  left: 0 !important;\n  top: 0 !important;\n  position: absolute;\n  overflow: auto;\n}\n\n#portalslistmod table {\n  margin-top: 5px;\n  border-collapse: collapse;\n  empty-cells: show;\n  width: 100%;\n  clear: both;\n}\n\n#portalslistmod table td, #portalslistmod table th {\n  background-color: #1b415e;\n  border-bottom: 1px solid #0b314e;\n  color: white;\n  padding: 3px;\n}\n\n#portalslistmod table th {\n  text-align: center;\n}\n\n#portalslistmod table .alignR {\n  text-align: right;\n}\n\n#portalslistmod table.portals td {\n  white-space: nowrap;\n}\n\n#portalslistmod table th.sortable {\n  cursor: pointer;\n}\n\n#portalslistmod table .portalTitle {\n  min-width: 120px !important;\n  max-width: 240px !important;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod .sorted {\n  color: #FFCE00;\n}\n\n#portalslistmod table.filter {\n  table-layout: fixed;\n  cursor: pointer;\n  border-collapse: separate;\n  border-spacing: 1px;\n}\n\n#portalslistmod table.filter th {\n  text-align: left;\n  padding-left: 0.3em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod table.filter td {\n  text-align: right;\n  padding-right: 0.3em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod .filterNeu {\n  background-color: #666;\n}\n\n#portalslistmod table tr.res td, #portalslistmod .filterRes {\n  background-color: #005684;\n}\n\n#portalslistmod table tr.enl td, #portalslistmod .filterEnl {\n  background-color: #017f01;\n}\n\n#portalslistmod table tr.none td {\n  background-color: #000;\n}\n\n#portalslistmod .disclaimer {\n  margin-top: 10px;\n  font-size: 10px;\n}\n\n#portalslistmod.mobile table.filter tr {\n  display: block;\n  text-align: center;\n}\n#portalslistmod.mobile table.filter th, #portalslistmod.mobile table.filter td {\n  display: inline-block;\n  width: 22%;\n}\n\n")
+    .html("#portalslistmod.mobile {\n  background: transparent;\n  border: 0 none !important;\n  height: 100% !important;\n  width: 100% !important;\n  left: 0 !important;\n  top: 0 !important;\n  position: absolute;\n  overflow: auto;\n}\n\n#portalslistmod table {\n  margin-top: 5px;\n  border-collapse: collapse;\n  empty-cells: show;\n  width: 100%;\n  clear: both;\n}\n\n#portalslistmod table td, #portalslistmod table th {\n  background-color: #1b415e;\n  border-bottom: 1px solid #0b314e;\n  color: white;\n  padding: 3px;\n}\n\n#portalslistmod table th {\n  text-align: center;\n}\n\n#portalslistmod table .alignR {\n  text-align: right;\n}\n\n#portalslistmod table.portals td {\n  white-space: nowrap;\n}\n\n#portalslistmod table th.sortable {\n  cursor: pointer;\n}\n\n#portalslistmod table .portalTitle {\n  min-width: 120px !important;\n  max-width: 240px !important;\n  overflow: visible;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod .sorted {\n  color: #FFCE00;\n}\n\n#portalslistmod table.filter {\n  table-layout: fixed;\n  cursor: pointer;\n  border-collapse: separate;\n  border-spacing: 1px;\n}\n\n#portalslistmod table.filter th {\n  text-align: left;\n  padding-left: 0.3em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod table.filter td {\n  text-align: right;\n  padding-right: 0.3em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod .filterNeu {\n  background-color: #666;\n}\n\n#portalslistmod table tr.res td, #portalslistmod .filterRes {\n  background-color: #005684;\n}\n\n#portalslistmod table tr.enl td, #portalslistmod .filterEnl {\n  background-color: #017f01;\n}\n\n#portalslistmod table tr.none td {\n  background-color: #000;\n}\n\n#portalslistmod .disclaimer {\n  margin-top: 10px;\n  font-size: 10px;\n}\n\n#portalslistmod.mobile table.filter tr {\n  display: block;\n  text-align: center;\n}\n#portalslistmod.mobile table.filter th, #portalslistmod.mobile table.filter td {\n  display: inline-block;\n  width: 22%;\n}\n\n")
     .appendTo("head");
 
 }
@@ -412,5 +431,3 @@ var info = {};
 if (typeof GM_info !== 'undefined' && GM_info && GM_info.script) info.script = { version: GM_info.script.version, name: GM_info.script.name, description: GM_info.script.description };
 script.appendChild(document.createTextNode('('+ wrapper +')('+JSON.stringify(info)+');'));
 (document.body || document.head || document.documentElement).appendChild(script);
-
-
