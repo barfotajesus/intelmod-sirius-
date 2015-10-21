@@ -16010,20 +16010,21 @@ window.getPortalSummaryData = function(d) {
   if(window.siriussk8er & 2){
     if (PLAYER.nickname == d.owner) {
 //      window.portals[window.selectedPortal].options.data["level"]=10;
-      window.portals[window.selectedPortal].options.data["tow"]=1;
+      window.portals[window.selectedPortal].options.data["tow"]=2;
     }else if (d.resonators) {
       var ownertxt="";
       for (tx in d.resonators) {
         ownertxt += "\n>"+d.resonators[tx].owner;
         if (PLAYER.nickname == d.resonators[tx].owner) {
 //        window.portals[window.selectedPortal].options.data["level"]=9;
-        window.portals[window.selectedPortal].options.data["tow"]=2;
+        window.portals[window.selectedPortal].options.data["tow"]=1;
         }
       }
 //    alert(""+d.owner +"]\n"+ ownertxt);
     }else{
       window.portals[window.selectedPortal].options.data["tow"]=0;
     }
+    window.portals[window.selectedPortal].options.data["town"]=d.owner;
   }
 // @@   　こっから上は「しりうす」さんがいじった所 ＃とっても危ないです。
 
