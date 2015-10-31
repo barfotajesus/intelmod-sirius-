@@ -95,14 +95,14 @@ window.plugin.portalslistmod.fields = [
     defaultOrder: -1,
   },
   {
-      title: "Team",
+      title: "Tm",
     value: function(portal) { return portal.options.team; },
     format: function(cell, portal, value) {
       $(cell).text(['NEU', 'RES', 'ENL'][value]);
     }
   },
   {
-    title: "Ow",
+    title: "O",
     value: function(portal) { return 'tow' in portal.options.data ? portal.options.data.tow : '0' },
     format: function(cell, portal, value) {
       $(cell)
@@ -110,10 +110,20 @@ window.plugin.portalslistmod.fields = [
     },
     defaultOrder: -1,
   },
+/*  { 
+    title: "Owner", 
+    value: function(portal) { return 'town' in portal.options.data ? portal.options.data.town : '-' }, 
+    sortValue: function(value, portal) { return 'town' in portal.options.data ? portal.options.data.town : '0' }, 
+    format: function(cell, portal, value) { 
+      $(cell) 
+        .text(value); 
+    }, 
+    defaultOrder: -1, 
+  }, */
   {
     title: "@@",
     value: function(portal) { return 'need' in portal.options.data ? portal.options.data.need : '-' },
-    sortValue: function(value, portal) { return 'need' in portal.options.data ? portal.options.data.need : '8' },
+    sortValue: function(value, portal) { return 'need' in portal.options.data ? (9 - portal.options.data.need) : '0' },
     format: function(cell, portal, value) {
       $(cell)
         .addClass("alignR")
@@ -431,3 +441,5 @@ var info = {};
 if (typeof GM_info !== 'undefined' && GM_info && GM_info.script) info.script = { version: GM_info.script.version, name: GM_info.script.name, description: GM_info.script.description };
 script.appendChild(document.createTextNode('('+ wrapper +')('+JSON.stringify(info)+');'));
 (document.body || document.head || document.documentElement).appendChild(script);
+
+
