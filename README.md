@@ -1,4 +1,4 @@
-# IITC-sirius-
+# intelmod-sirius-
 ここにある 『改変IITC』で出来る事
 ●IITC を利用しての ポータル仕様 一覧(P8までのR8必要数やMOD内容 等)
 　必須：ここにある 『show list of portals Plugi(mod)』(画面内Portalを表形式で表示)
