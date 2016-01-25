@@ -1,3 +1,9 @@
+Option Explicit
+Dim args, arg
+Set args = WScript.Arguments
+Dim FSO 
+Dim TSO
+
 Dim	strLine
 Dim	arrFields
 Dim	strMessage
@@ -16,34 +22,64 @@ tt(6)=8 'Lat 37
 tt(7)=9 'Lng 140
 tt(8)=10 'URL
 
+Dim Stream
+Dim Stream2
 Set Stream = CreateObject( "ADODB.Stream" )
 Set Stream2 = CreateObject( "ADODB.Stream" )
+Dim infullpath
+Dim outfullpath
+Dim folderpath
+Dim infile
+Dim outfile
 
-Stream.Open
-Stream.Type = 2	' テキスト
-Stream.Charset = "UTF-8"
-Stream.LoadFromFile "C:\Users\Koyama\Desktop\test.csv"
-Stream.LineSeparator = 10	' LF
-Stream.Position = 0
+infile = "test.csv"
+outfile = "test.kml"
+Set FSO = CreateObject("Scripting.FileSystemObject")
 
-Stream2.Open
-Stream2.Type = 2	' テキスト
-'Stream2.Charset = "shift_jis"
-Stream2.Charset = "UTF-8"
-Stream2.LineSeparator = -1	' CRLF
+if(args.Count = 1)Then
+  infullpath = args(0)
+  folderpath = FSO.getParentFolderName(args(0))
+  outfullpath = FSO.BuildPath(folderpath, outfile)
 
-strHeader = _
-	 "<?xml version='1.0' encoding='UTF-8'?>" & vbCrLf _
-	& "<kml xmlns='http://www.opengis.net/kml/2.2'>" & vbCrLf _
-	& vbTab &"<Document>" & vbCrLf _
-	& vbTab & vbTab &"<name>" + Cstr(Now()) + "</name>" ' & vbCrLf 最後は要らないぽい
+Else
+  if(args.Count = 0)Then
+    folderpath = FSO.getParentFolderName(WScript.ScriptFullName)
+    infullpath = FSO.BuildPath(folderpath, infile)
+    outfullpath = FSO.BuildPath(folderpath, outfile)
+  Else
+    Call MsgBox("ファイルは1つ指定でお願いします。"_
+              & vbCrLf & "FileCount = " & args.Count )
+  End If
+End If
+
+'msgbox infullpath & vbCRLF & outfullpath
+
+  Stream.Open
+  Stream.Type = 2	' テキスト
+  Stream.Charset = "UTF-8"
+  Stream.LoadFromFile infullpath
+'  Stream.LoadFromFile args(0) '入力ファイル名
+  Stream.LineSeparator = 10	' LF
+  Stream.Position = 0
+
+  Stream2.Open
+  Stream2.Type = 2	' テキスト
+  'Stream2.Charset = "shift_jis"
+  Stream2.Charset = "UTF-8"
+  Stream2.LineSeparator = -1	' CRLF
+    
+  strHeader = _
+  	 "<?xml version='1.0' encoding='UTF-8'?>" & vbCrLf _
+  	& "<kml xmlns='http://www.opengis.net/kml/2.2'>" & vbCrLf _
+  	& vbTab &"<Document>" & vbCrLf _
+  	& vbTab & vbTab &"<name>" + Cstr(Now()) + "</name>" ' & vbCrLf 最後は要らないぽい
 '	& vbTab & vbTab &"<name>" + Cstr(Date()) + "</name>" ' & vbCrLf 最後は要らないぽい
-strFuter = _
-	  vbTab & vbTab & "<Style id='icon-P8E'>" & vbCrLf _
-	& vbTab & vbTab & "<IconStyle>" & vbCrLf _
-	& vbTab & vbTab & "<color>ff579D00</color>" & vbCrLf _
-	& vbTab & vbTab & "<scale>1.1</scale>" & vbCrLf _
-	& vbTab & vbTab & "<Icon>" & vbCrLf _
+  strFuter = _
+  	  vbTab & vbTab & "<Style id='icon-P8E'>" & vbCrLf _
+  	& vbTab & vbTab & "<IconStyle>" & vbCrLf _
+  	& vbTab & vbTab & "<color>ff579D00</color>" & vbCrLf _
+  	& vbTab & vbTab & "<scale>1.1</scale>" & vbCrLf _
+  	& vbTab & vbTab & "<Icon>" & vbCrLf _
 	& vbTab & vbTab & "<href>http://www.gstatic.com/mapspro/images/stock/960-wht-star-blank.png</href>" & vbCrLf _
 	& vbTab & vbTab & "</Icon>" & vbCrLf _
 	& vbTab & vbTab & "</IconStyle>" & vbCrLf _
@@ -78,12 +114,12 @@ strFuter = _
 	& vbTab & "</Document>" & vbCrLf _
 	& "</kml>" & vbCrLf _
 
-Stream2.WriteText strHeader,1
-Do While not Stream.EOS
-    strMessage = strMessage & vbTab & vbTab &"<Placemark>" & vbCrLf
-
-	' -2 は、ストリームから次の行を読み取ります
-	strLine = Stream.ReadText( -2 )
+  Stream2.WriteText strHeader,1
+  Do While not Stream.EOS
+      strMessage = strMessage & vbTab & vbTab &"<Placemark>" & vbCrLf
+  
+  	' -2 は、ストリームから次の行を読み取ります
+  	strLine = Stream.ReadText( -2 )
 'WScript.Echo strLine
 	arrFields = Split(strLine,vbTab)
 	if(arrFields(tt(3))="1")then
@@ -110,10 +146,10 @@ Do While not Stream.EOS
 	Stream2.WriteText strMessage,1
 	strMessage = ""
 '	Stream2.WriteText Stream.ReadText( -2 ), 1
-Loop
-Stream2.WriteText strFuter,1
-
-Stream2.SaveToFile "C:\Users\Koyama\Desktop\test.kml", 2
-
-Stream.Close
-Stream2.Close
+  Loop
+  Stream2.WriteText strFuter,1
+  
+  Stream2.SaveToFile outfullpath, 2
+  
+  Stream.Close
+  Stream2.Close
