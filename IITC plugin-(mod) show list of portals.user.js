@@ -169,7 +169,15 @@ window.plugin.portalslistmod.fields = [
     },
     defaultOrder: -1,
   },
-
+  {
+    title: "URL",
+    value: function(portal) { return plugin.portalslistmod.getPortalLink(portal); },
+    format: function(cell, portal, value) {
+      $(cell)
+        .text(value);
+    },
+    defaultOrder: -1,
+  },
 ];
     
 //fill the listPortals array with portals avaliable on the map (level filtered portals will not appear in the table)
@@ -373,9 +381,30 @@ window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
 
     table.appendChild(row);
   });
-
+//@@ ここから変更箇所
+  var t_txt ='';
+  for(ty in portals) {
+    if(6 < portals[ty].portal.options.level || portals[ty].values[7].match(/VRH/) || portals[ty].values[7].match(/VRM/)){
+      for(tx in portals[ty].values) {
+        t_txt = t_txt + portals[ty].values[tx] + '\t';
+      }
+      t_txt = t_txt + '\n';
+    }
+  }
+var data = t_txt;
+var a = document.createElement('a');
+a.textContent = 'export';
+a.download = 'table.csv';
+a.href = window.URL.createObjectURL(new Blob([data], { type: 'text/plain' }));
+a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
+ 
   container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
-    + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.</div>');
+    + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.'
+    + ' [<a href=' + a.href + ' download=test.csv ><span id="export-link">export</span></a>]</div>');
+//元の文言
+//  container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
+//    + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.</div>');
+//@@
 
   return container;
 }
@@ -441,5 +470,3 @@ var info = {};
 if (typeof GM_info !== 'undefined' && GM_info && GM_info.script) info.script = { version: GM_info.script.version, name: GM_info.script.name, description: GM_info.script.description };
 script.appendChild(document.createTextNode('('+ wrapper +')('+JSON.stringify(info)+');'));
 (document.body || document.head || document.documentElement).appendChild(script);
-
-
