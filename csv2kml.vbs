@@ -39,8 +39,7 @@ Set FSO = CreateObject("Scripting.FileSystemObject")
 if(args.Count = 1)Then 'D&Dが一つなら
   infullpath = args(0)
   folderpath = FSO.getParentFolderName(args(0))
-  outfullpath = FSO.BuildPath(folderpath, outfile)
-
+  outfullpath = FSO.BuildPath(folderpath, FSO.getBaseName(args(0)) & ".kml")
 Else
   if(args.Count = 0)Then 'そのまま実行(D&D無し)
     folderpath = FSO.getParentFolderName(WScript.ScriptFullName)
