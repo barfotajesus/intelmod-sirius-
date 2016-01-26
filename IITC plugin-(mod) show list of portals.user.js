@@ -77,7 +77,7 @@ window.plugin.portalslistmod.fields = [
   },
   {
     title: "Mod",
-      value: function(portal) { return 'tmod' in portal.options.data ? portal.options.data.tmod : '-' },
+      value: function(portal) { return 'tmod' in portal.options.data ? portal.options.data.tmod : '-'; },
     format: function(cell, portal, value) {
       $(cell)
         .text(value);
@@ -103,7 +103,7 @@ window.plugin.portalslistmod.fields = [
   },
   {
     title: "O",
-    value: function(portal) { return 'tow' in portal.options.data ? portal.options.data.tow : '0' },
+    value: function(portal) { return 'tow' in portal.options.data ? portal.options.data.tow : '0'; },
     format: function(cell, portal, value) {
       $(cell)
         .text([' ', 'R', 'O'][value]);
@@ -122,8 +122,8 @@ window.plugin.portalslistmod.fields = [
   }, */
   {
     title: "@@",
-    value: function(portal) { return 'need' in portal.options.data ? portal.options.data.need : '-' },
-    sortValue: function(value, portal) { return 'need' in portal.options.data ? (9 - portal.options.data.need) : '0' },
+    value: function(portal) { return 'need' in portal.options.data ? portal.options.data.need : '-'; },
+    sortValue: function(value, portal) { return 'need' in portal.options.data ? (9 - portal.options.data.need) : '0'; },
     format: function(cell, portal, value) {
       $(cell)
         .addClass("alignR")
@@ -133,8 +133,8 @@ window.plugin.portalslistmod.fields = [
   },
   {
     title: "Hack",
-    value: function(portal) { return 'th1' in portal.options.data ? (portal.options.data.th1 + "[" + portal.options.data.th2 +"s]") : '-' },
-    sortValue: function(value, portal) { return 'th2' in portal.options.data ? portal.options.data.th2 : '400' },
+    value: function(portal) { return 'th1' in portal.options.data ? (portal.options.data.th1 + "[" + portal.options.data.th2 +"s]") : '-'; },
+    sortValue: function(value, portal) { return 'th2' in portal.options.data ? portal.options.data.th2 : '400'; },
     format: function(cell, portal, value) {
       $(cell)
         .text(value);
@@ -143,8 +143,8 @@ window.plugin.portalslistmod.fields = [
   },
   {
     title: "Sheld",
-    value: function(portal) { return 'tg1' in portal.options.data ? (portal.options.data.tg1 + "(+" + portal.options.data.tg2 +")") : '-' },
-    sortValue: function(value, portal) { return 'tg1' in portal.options.data ? (portal.options.data.tg1 + portal.options.data.tg2) : '0' },
+    value: function(portal) { return 'tg1' in portal.options.data ? (portal.options.data.tg1 + "(+" + portal.options.data.tg2 +")") : '-'; },
+    sortValue: function(value, portal) { return 'tg1' in portal.options.data ? (portal.options.data.tg1 + portal.options.data.tg2) : '0'; },
     format: function(cell, portal, value) {
       $(cell)
         .text(value);
@@ -234,7 +234,7 @@ window.plugin.portalslistmod.getPortals = function() {
   });
 
   return retval;
-}
+};
 
 window.plugin.portalslistmod.displayPL = function() {
   var list;
@@ -250,7 +250,7 @@ window.plugin.portalslistmod.displayPL = function() {
     list = window.plugin.portalslistmod.portalTable(window.plugin.portalslistmod.sortBy, window.plugin.portalslistmod.sortOrder,window.plugin.portalslistmod.filter);
   } else {
     list = $('<table class="noPortals"><tr><td>Nothing to show!</td></tr></table>');
-  };
+  }
 
   if(window.useAndroidPanes()) {
     $('<div id="portalslistmod" class="mobile">').append(list).appendTo(document.body);
@@ -263,7 +263,7 @@ window.plugin.portalslistmod.displayPL = function() {
       width: 900
     });
   }
-}
+};
 
 window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
   // save the sortBy/sortOrder/filter
@@ -383,8 +383,12 @@ window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
   });
 //@@ ここから変更箇所
   var t_txt ='';
+  var ty,tx;
   for(ty in portals) {
-    if(6 < portals[ty].portal.options.level || portals[ty].values[7].match(/VRH/) || portals[ty].values[7].match(/VRM/)){
+//    if(6 < portals[ty].portal.options.level || portals[ty].values[1].match(/VRH/) || portals[ty].values[1].match(/VRM/)){
+//    portals[ty].values[5]... 表示されている値の5番目(名前が0)
+//    portals[ty].values[1].match(/RM/)... RMという文字があったら
+    if( portals[ty].values[5] < 4 || portals[ty].values[1].match(/RH/) || portals[ty].values[1].match(/RM/)){
       for(tx in portals[ty].values) {
         t_txt = t_txt + portals[ty].values[tx] + '\t';
       }
@@ -407,7 +411,7 @@ a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
 //@@
 
   return container;
-}
+};
 
 // portal link - single click: select portal
 //               double click: zoom to and select portal
@@ -431,13 +435,13 @@ window.plugin.portalslistmod.getPortalLink = function(portal) {
     return false;
   });
   return link;
-}
+};
 
 window.plugin.portalslistmod.onPaneChanged = function(pane) {
   if(pane == "plugin-portalslistmod")
     window.plugin.portalslistmod.displayPL();
   else
-    $("#portalslistmod").remove()
+    $("#portalslistmod").remove();
 };
 
 var setup =  function() {
@@ -453,7 +457,7 @@ var setup =  function() {
     .html("#portalslistmod.mobile {\n  background: transparent;\n  border: 0 none !important;\n  height: 100% !important;\n  width: 100% !important;\n  left: 0 !important;\n  top: 0 !important;\n  position: absolute;\n  overflow: auto;\n}\n\n#portalslistmod table {\n  margin-top: 5px;\n  border-collapse: collapse;\n  empty-cells: show;\n  width: 100%;\n  clear: both;\n}\n\n#portalslistmod table td, #portalslistmod table th {\n  background-color: #1b415e;\n  border-bottom: 1px solid #0b314e;\n  color: white;\n  padding: 3px;\n}\n\n#portalslistmod table th {\n  text-align: center;\n}\n\n#portalslistmod table .alignR {\n  text-align: right;\n}\n\n#portalslistmod table.portals td {\n  white-space: nowrap;\n}\n\n#portalslistmod table th.sortable {\n  cursor: pointer;\n}\n\n#portalslistmod table .portalTitle {\n  min-width: 120px !important;\n  max-width: 240px !important;\n  overflow: visible;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod .sorted {\n  color: #FFCE00;\n}\n\n#portalslistmod table.filter {\n  table-layout: fixed;\n  cursor: pointer;\n  border-collapse: separate;\n  border-spacing: 1px;\n}\n\n#portalslistmod table.filter th {\n  text-align: left;\n  padding-left: 0.3em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod table.filter td {\n  text-align: right;\n  padding-right: 0.3em;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n\n#portalslistmod .filterNeu {\n  background-color: #666;\n}\n\n#portalslistmod table tr.res td, #portalslistmod .filterRes {\n  background-color: #005684;\n}\n\n#portalslistmod table tr.enl td, #portalslistmod .filterEnl {\n  background-color: #017f01;\n}\n\n#portalslistmod table tr.none td {\n  background-color: #000;\n}\n\n#portalslistmod .disclaimer {\n  margin-top: 10px;\n  font-size: 10px;\n}\n\n#portalslistmod.mobile table.filter tr {\n  display: block;\n  text-align: center;\n}\n#portalslistmod.mobile table.filter th, #portalslistmod.mobile table.filter td {\n  display: inline-block;\n  width: 22%;\n}\n\n")
     .appendTo("head");
 
-}
+};
 
 // PLUGIN END //////////////////////////////////////////////////////////
 
@@ -470,3 +474,5 @@ var info = {};
 if (typeof GM_info !== 'undefined' && GM_info && GM_info.script) info.script = { version: GM_info.script.version, name: GM_info.script.name, description: GM_info.script.description };
 script.appendChild(document.createTextNode('('+ wrapper +')('+JSON.stringify(info)+');'));
 (document.body || document.head || document.documentElement).appendChild(script);
+
+
