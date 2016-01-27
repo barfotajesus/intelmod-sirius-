@@ -388,7 +388,12 @@ window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
 //    if(6 < portals[ty].portal.options.level || portals[ty].values[1].match(/VRH/) || portals[ty].values[1].match(/VRM/)){
 //    portals[ty].values[5]... 表示されている値の5番目(名前が0)
 //    portals[ty].values[1].match(/RM/)... RMという文字があったら
-    if( portals[ty].values[5] < 4 || portals[ty].values[1].match(/RH/) || portals[ty].values[1].match(/RM/)){
+//    if( portals[ty].values[5] < 4 || portals[ty].values[1].match(/RH/) || portals[ty].values[1].match(/RM/)){
+    if( ((portals[ty].values[5] < 4) & (portals[ty].values[3] ==1))
+       || ((portals[ty].values[5] < 1 & portals[ty].values[3] ==2))
+       || portals[ty].values[1].match(/RH/)
+       || portals[ty].values[1].match(/RM/)
+      ){
       for(tx in portals[ty].values) {
         t_txt = t_txt + portals[ty].values[tx] + '\t';
       }
@@ -474,5 +479,3 @@ var info = {};
 if (typeof GM_info !== 'undefined' && GM_info && GM_info.script) info.script = { version: GM_info.script.version, name: GM_info.script.name, description: GM_info.script.description };
 script.appendChild(document.createTextNode('('+ wrapper +')('+JSON.stringify(info)+');'));
 (document.body || document.head || document.documentElement).appendChild(script);
-
-
