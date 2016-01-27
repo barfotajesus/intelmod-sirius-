@@ -137,7 +137,8 @@ End If
 			strMessage = strMessage & strTab3 &"<styleUrl>#icon-P7E</styleUrl>" & vbCrLf
 		end if
 	end if
-    strMessage = strMessage & strTab3 &"<name>P" & arrFields(tt(2)) & " "& arrFields(tt(0)) & ",@" & arrFields(tt(4)) & "," & arrFields(tt(5)) & "</name>" & vbCrLf
+'    strMessage = strMessage & strTab3 &"<name>P" & arrFields(tt(2)) & " "& arrFields(tt(0)) & ",@" & arrFields(tt(4)) & "," & arrFields(tt(5)) & "</name>" & vbCrLf
+    strMessage = strMessage & strTab3 &"<name>@" & arrFields(tt(4)) & " "& arrFields(tt(5)) & "," & arrFields(tt(0)) & "</name>" & vbCrLf
     strMessage = strMessage & strTab3 &"<description><![CDATA[" & arrFields(tt(1)) & "<br>URL> " & arrFields(tt(8)) & ",]]></description>" & vbCrLf
     strMessage = strMessage & strTab3 &"<ExtendedData></ExtendedData>" & vbCrLf
     strMessage = strMessage & strTab3 &"<Point>" & vbCrLf
