@@ -17707,8 +17707,7 @@ window.scrollBottom = function(elm) {
 }
 
 window.zoomToAndShowPortal = function(guid, latlng) {
-//@@ Portallistでのダブルクリック無効化用の場所
-//  map.setView(latlng, 17);
+  map.setView(latlng, 17);
   // if the data is available, render it immediately. Otherwise defer
   // until it becomes available.
   if(window.portals[guid])
