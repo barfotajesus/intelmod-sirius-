@@ -2,7 +2,7 @@
 // @id             iitc-plugin-portals-list@siriussk8er
 // @name           IITC plugin:(mod) show list of portals
 // @category       Info
-// @version        0.2.1.20160211.1654
+// @version        0.2.1.20160212.0616
 // @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
 // @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
 // @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
@@ -400,6 +400,11 @@ window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
       t_txt = t_txt + '\n';
     }
   }
+var t_url = window.location.href;
+var t_name = t_url.slice( t_url.search( /ll=/i )+3 , t_url.search( /&z=/ ) );
+　　t_name = t_name.replace(/[\.]/g , "");
+//    alert(t_name);
+
 var data = t_txt;
 var a = document.createElement('a');
 a.textContent = 'export';
@@ -409,7 +414,10 @@ a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
  
   container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
     + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.'
-    + ' [<a href=' + a.href + ' download=test.csv ><span id="export-link">export</span></a>]</div>');
+    + ' [<a href=' + a.href + ' download='+ t_name +'.csv ><span id="export-link">export</span></a>]</div>');
+//  container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
+//    + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.'
+//    + ' [<a href=' + a.href + ' download=test.csv ><span id="export-link">export</span></a>]</div>');
 //元の文言
 //  container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
 //    + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.</div>');
