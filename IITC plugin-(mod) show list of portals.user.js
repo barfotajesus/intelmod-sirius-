@@ -435,7 +435,7 @@ window.plugin.portalslistmod.getPortalLink = function(portal) {
     return false;
   }, false);
   link.addEventListener("dblclick", function(ev) {
-    zoomToAndShowPortal(portal.options.guid, [coord.lat, coord.lng]);
+//    zoomToAndShowPortal(portal.options.guid, [coord.lat, coord.lng]);
     ev.preventDefault();
     return false;
   });
