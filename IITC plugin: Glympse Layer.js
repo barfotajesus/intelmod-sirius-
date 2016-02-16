@@ -4,8 +4,8 @@
 // @category       Layer
 // @version        0.1.0.0.20160215
 // @namespace      IITC plugin- Glympse-Layer.user.js
-// @updateURL      https://drive.google.com/file/d/0B53IDciSxP98aTB5Wmlya1N4Nmc/view?usp=sharing
-// @downloadURL    https://drive.google.com/file/d/0B53IDciSxP98aTB5Wmlya1N4Nmc/view?usp=sharing
+// @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin:%20Glympse%20Layer.js
+// @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin:%20Glympse%20Layer.js
 // @description    plugin- Glympse-Layer.user.js
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
