@@ -2,7 +2,7 @@
 // @id             iitc-plugin-portals-list@siriussk8er
 // @name           IITC plugin:(mod) show list of portals
 // @category       Info
-// @version        0.2.1.20160212.0616
+// @version        0.2.1.20160221
 // @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
 // @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
 // @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
@@ -382,6 +382,7 @@ window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
     table.appendChild(row);
   });
 //@@ ここから変更箇所
+  var all_txt ='';
   var t_txt ='';
   var ty,tx;
   for(ty in portals) {
@@ -399,6 +400,10 @@ window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
       }
       t_txt = t_txt + '\n';
     }
+    for(tx in portals[ty].values) {
+      all_txt = all_txt + portals[ty].values[tx] + '\t';
+    }
+    all_txt = all_txt + '\n';
   }
 var t_url = window.location.href;
 var t_name = t_url.slice( t_url.search( /ll=/i )+3 , t_url.search( /&z=/ ) );
@@ -407,14 +412,19 @@ var t_name = t_url.slice( t_url.search( /ll=/i )+3 , t_url.search( /&z=/ ) );
 
 var data = t_txt;
 var a = document.createElement('a');
+var all = document.createElement('a');
 a.textContent = 'export';
-a.download = 'table.csv';
+//a.download = 'table.csv';
 a.href = window.URL.createObjectURL(new Blob([data], { type: 'text/plain' }));
 a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
+all.href = window.URL.createObjectURL(new Blob([data], { type: 'text/plain' }));
+all.dataset.downloadurl = ['text/plain', all.download, all.href].join(':');
  
   container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
     + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.'
-    + ' [<a href=' + a.href + ' download='+ t_name +'.csv ><span id="export-link">export</span></a>]</div>');
+    + ' [<a href=' + a.href + ' download='+ t_name +'.csv ><span id="export-link">export</span></a>]'
+    + ' [<a href=' + all.href + ' download='+ t_name +'_all.csv ><span id="export-link">export_all</span></a>]'
+    + '</div>');
 //  container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
 //    + 'Click on <b>All, Neutral, Resistance, Enlightened</b> to only show portals owner by that faction or on the number behind the factions to show all but those portals.'
 //    + ' [<a href=' + a.href + ' download=test.csv ><span id="export-link">export</span></a>]</div>');
