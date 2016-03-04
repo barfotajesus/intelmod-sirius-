@@ -2,7 +2,7 @@
 // @id             iitc-plugin-portals-list@siriussk8er
 // @name           IITC plugin:(mod) show list of portals
 // @category       Info
-// @version        0.2.1.20160221
+// @version        0.2.1.20160304
 // @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
 // @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
 // @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
@@ -22,15 +22,6 @@
 function wrapper(plugin_info) {
 // ensure plugin framework is there, even if iitc is not yet loaded
 if(typeof window.plugin !== 'function') window.plugin = function() {};
-
-//PLUGIN AUTHORS: writing a plugin outside of the IITC build environment? if so, delete these lines!!
-//(leaving them in place might break the 'About IITC' page or break update checks)
-plugin_info.buildName = 'jonatkins';
-plugin_info.dateTimeVersion = '20150917.154202';
-plugin_info.pluginId = 'portals-list';
-//END PLUGIN AUTHORS NOTE
-
-
 
 // PLUGIN START ////////////////////////////////////////////////////////
 
@@ -259,7 +250,7 @@ window.plugin.portalslistmod.displayPL = function() {
       html: $('<div id="portalslistmod">').append(list),
       dialogClass: 'ui-dialog-portalslistmod',
       title: 'Portal list: ' + window.plugin.portalslistmod.listPortals.length + ' ' + (window.plugin.portalslistmod.listPortals.length == 1 ? 'portal' : 'portals'),
-      id: 'portal-list',
+      id: 'portal-listmod',
       width: 900
     });
   }
