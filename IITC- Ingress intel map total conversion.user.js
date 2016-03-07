@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             ingress-intel-total-conversion(mod)@siriussk8er
 // @name           IITC(mod): Ingress intel map total conversion
-// @version        0.25.1.20160211.1705
+// @version        0.25.1.20160307
 // @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC-%20Ingress%20intel%20map%20total%20conversion.user.js
 // @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC-%20Ingress%20intel%20map%20total%20conversion.user.js
 // @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC-%20Ingress%20intel%20map%20total%20conversion.user.js
@@ -131,9 +131,6 @@ window.script_info = info;
 //L_PREFER_CANVAS = false;
 
 // CONFIG OPTIONS ////////////////////////////////////////////////////
-//@@@ここで設定可能
-window.siriussk8er = 3; // 1=@1Portal探し 2=myPortal表示 3=1+2
-//@@@ここまで
 window.REFRESH = 30; // refresh view every 30s (base time)
 window.ZOOM_LEVEL_ADJ = 5; // add 5 seconds per zoom level
 window.ON_MOVE_REFRESH = 2.5;  //refresh time to use after a movement event
@@ -15956,9 +15953,8 @@ window.getPortalSummaryData = function(d) {
   var curEnergy = getCurrentPortalEnergy(d);
   var health = maxEnergy>0 ? parseInt(curEnergy/maxEnergy*100) : 0;
 
-// @@　こっから下は「しりうす」さんがいじった所 ＃とっても危ないです。
+//@@　こっから下は「しりうす」さんがいじった所 ＃とっても危ないです。
 // @1Portal探し部
-  if(window.siriussk8er & 1){
     var tx
     var tlvl = " ";
     var trs = 8;
@@ -16005,9 +16001,7 @@ window.getPortalSummaryData = function(d) {
 //    }
     window.portals[window.selectedPortal].options.data["need"]=trs;
     window.portals[window.selectedPortal].options.data["tmod"]=tmod;
-  }
 // @myPortal表示部
-  if(window.siriussk8er & 2){
     if (PLAYER.nickname == d.owner) {
 //      window.portals[window.selectedPortal].options.data["level"]=10;
       window.portals[window.selectedPortal].options.data["tow"]=2;
@@ -16025,8 +16019,7 @@ window.getPortalSummaryData = function(d) {
       window.portals[window.selectedPortal].options.data["tow"]=0;
     }
     window.portals[window.selectedPortal].options.data["town"]=d.owner;
-  }
-// @@   　こっから上は「しりうす」さんがいじった所 ＃とっても危ないです。
+//@@   　こっから上は「しりうす」さんがいじった所 ＃とっても危ないです。
 
   return {
     level: level,
@@ -16040,6 +16033,16 @@ window.getPortalSummaryData = function(d) {
     type: 'portal'
   };
 }
+
+//@@@ 情報収集用
+function printProperties(obj) {
+    var properties = '';
+    for (var prop in obj){
+        properties += prop + "=" + obj[prop] + "\n";
+    }
+    alert(properties);
+}
+//@@@
 
 window.getPortalAttackValues = function(d) {
   var forceamps = getPortalModsByType(d, 'FORCE_AMP');
