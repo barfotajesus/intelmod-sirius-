@@ -1,11 +1,11 @@
 // ==UserScript==
 // @id             iitc-plugin-portals-list@siriussk8er
-// @name           IITC plugin:(mod) show list of portals
+// @name           IITC(mod)plugin: show list of portals
 // @category       Info
-// @version        0.2.1.20160304
-// @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
-// @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
-// @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC%20plugin-(mod)%20show%20list%20of%20portals.user.js
+// @version        0.2.1.20160314
+// @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC(mod)plugin-%20show%20list%20of%20portals.user.js
+// @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC(mod)plugin-%20show%20list%20of%20portals.user.js
+// @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC(mod)plugin-%20show%20list%20of%20portals.user.js
 // @description    IITC plugin-(mod) show list of portals.user.js
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
@@ -162,13 +162,22 @@ window.plugin.portalslistmod.fields = [
   },
   {
     title: "URL",
-    value: function(portal) { return plugin.portalslistmod.getPortalLink(portal); },
+   value: function(portal) { return plugin.portalslistmod.getPortalIntlLink(portal); },
     format: function(cell, portal, value) {
       $(cell)
-        .text(value);
+        .append(plugin.portalslistmod.getPortalIntlLink(portal,"link"))
     },
     defaultOrder: -1,
   },
+  {
+     title: "ID",
+     value: function(portal) {return portal.options.ent[0]; },
+     format: function(cell, portal, value) {
+       $(cell)
+         .text(value);
+     },
+     defaultOrder: -1,
+   },
 ];
     
 //fill the listPortals array with portals avaliable on the map (level filtered portals will not appear in the table)
@@ -381,10 +390,10 @@ window.plugin.portalslistmod.portalTable = function(sortBy, sortOrder, filter) {
 //    portals[ty].values[5]... 表示されている値の5番目(名前が0)
 //    portals[ty].values[1].match(/RM/)... RMという文字があったら
 //    if( portals[ty].values[5] < 4 || portals[ty].values[1].match(/RH/) || portals[ty].values[1].match(/RM/)){
-    if( ((portals[ty].values[5] < 4) & (portals[ty].values[3] ==1))
-       || ((portals[ty].values[5] < 1 & portals[ty].values[3] ==2))
-       || portals[ty].values[1].match(/RH/)
-       || portals[ty].values[1].match(/RM/)
+    if( ((portals[ty].values[5] < 4) & (portals[ty].values[3] ==1))  //RESは@3以下
+       || ((portals[ty].values[5] < 1 & portals[ty].values[3] ==2))  //ENLは@0以下(P8のみ)
+       || portals[ty].values[1].match(/RH/)  //レア以上のHS
+       || portals[ty].values[1].match(/RM/)  //レア以上のMH
       ){
       for(tx in portals[ty].values) {
         t_txt = t_txt + portals[ty].values[tx] + '\t';
@@ -401,14 +410,14 @@ var t_name = t_url.slice( t_url.search( /ll=/i )+3 , t_url.search( /&z=/ ) );
 　　t_name = t_name.replace(/[\.]/g , "");
 //    alert(t_name);
 
-var data = t_txt;
+//var data = t_txt;
 var a = document.createElement('a');
 var all = document.createElement('a');
 a.textContent = 'export';
 //a.download = 'table.csv';
-a.href = window.URL.createObjectURL(new Blob([data], { type: 'text/plain' }));
+a.href = window.URL.createObjectURL(new Blob([t_txt], { type: 'text/plain' }));
 a.dataset.downloadurl = ['text/plain', a.download, a.href].join(':');
-all.href = window.URL.createObjectURL(new Blob([data], { type: 'text/plain' }));
+all.href = window.URL.createObjectURL(new Blob([all_txt], { type: 'text/plain' }));
 all.dataset.downloadurl = ['text/plain', all.download, all.href].join(':');
  
   container.append('<div class="disclaimer">Click on portals table headers to sort by that column. '
@@ -450,6 +459,32 @@ window.plugin.portalslistmod.getPortalLink = function(portal) {
   });
   return link;
 };
+
+//@@ ここからリンク専用関数
+window.plugin.portalslistmod.getPortalIntlLink = function(portal) {
+  var coord = portal.getLatLng();
+  var perma = '/intel?ll='+coord.lat+','+coord.lng+'&z=19&pll='+coord.lat+','+coord.lng;
+//Sample→ https://www.google.co.jp/maps/dir//34.715382,137.724469/@34.715382,137.724469,19z
+
+  // jQuery's event handlers seem to be removed when the nodes are remove from the DOM
+
+  var link = document.createElement("a");
+//  link.textContent = portal.options.data.title;
+  link.textContent = 'Intel';
+  link.href = perma;
+  link.addEventListener("click", function(ev) {
+    renderPortalDetails(portal.options.guid);
+    ev.preventDefault();
+    return false;
+  }, false);
+  link.addEventListener("dblclick", function(ev) {
+//    zoomToAndShowPortal(portal.options.guid, [coord.lat, coord.lng]);
+    ev.preventDefault();
+    return false;
+  });
+  return link;
+};
+//@@
 
 window.plugin.portalslistmod.onPaneChanged = function(pane) {
   if(pane == "plugin-portalslistmod")
