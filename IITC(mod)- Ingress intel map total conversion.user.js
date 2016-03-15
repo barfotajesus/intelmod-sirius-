@@ -2,9 +2,9 @@
 // @id             ingress-intel-total-conversion(mod)@siriussk8er
 // @name           IITC(mod): Ingress intel map total conversion
 // @version        0.25.1.20160307
-// @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC-%20Ingress%20intel%20map%20total%20conversion.user.js
-// @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC-%20Ingress%20intel%20map%20total%20conversion.user.js
-// @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC-%20Ingress%20intel%20map%20total%20conversion.user.js
+// @namespace      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC(mod)-%20Ingress%20intel%20map%20total%20conversion.user.js
+// @updateURL      https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC(mod)-%20Ingress%20intel%20map%20total%20conversion.user.js
+// @downloadURL    https://github.com/siriussk8er/intelmod-sirius-/raw/master/IITC(mod)-%20Ingress%20intel%20map%20total%20conversion.user.js
 // @description    IITC- Ingress intel map total conversion.user.js
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
